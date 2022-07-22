@@ -1,0 +1,53 @@
+/* ----------DEFAULT------------ */
+
+* {
+    font-family: 'Arvo', sans-serif;
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    scroll-behavior: smooth;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: grey;
+    font-family: sans-serif;
+    overflow: overlay;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+img {
+    pointer-events: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+/* ----------MAIN PRODUCTOS---------- */
+
+
+/* #formulario {
+    display: none;
+} */
+
+.cards-title {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.main-cards {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-gap: 1rem;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+}
