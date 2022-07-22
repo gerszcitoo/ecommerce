@@ -24,6 +24,7 @@ const agregarProducto = () => {
 listaProductos.forEach(elemento => {
     let nodo = document.createElement("div")
     nodo.setAttribute("class", "card");
+    nodo.setAttribute("style", "width: 18rem;");
     nodo.innerHTML = `
     <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
     <div class="card-body" id="card-body">
@@ -31,12 +32,16 @@ listaProductos.forEach(elemento => {
     <p class="card-text">$${elemento.precio}</p>
     <a href="#" class="btn btn-primary">Añadir al carrito</a>
     `
-    document.getElementById("card-body").appendChild(nodo);
+    document.getElementById("main-cards").appendChild(nodo);
 })
 
 let btnAgregar = document.querySelector("#agregar");
 
-btnAgregar.addEventListener("click", agregarProducto());
+btnAgregar.onclick = (e) => {
+    e.preventDefault();
+    agregarProducto();
+}
+
 
 /* function agregarProducto() {
     let imgCard = document.createElement("img");
