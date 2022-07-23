@@ -58,10 +58,12 @@ let btnAgregar = document.getElementById("agregar");
 
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
-    document.getElementById("main-cards").innerHTML = "";
     e.preventDefault();
-    agregarProducto();
-    if (nombre != "" && precio != 0) {
+    if (nombre.value != "" && precio.value != "") {
+        document.getElementById("main-cards").innerHTML = "";
+        agregarProducto();
+        document.getElementById("nombre").value = "";
+        document.getElementById("precio").value = "";
         listaProductos.forEach(elemento => {
             let nodo = document.createElement("div")
             nodo.setAttribute("class", "card");
@@ -76,6 +78,9 @@ btnAgregar.onclick = (e) => {
             `
             document.getElementById("main-cards").appendChild(nodo);
         })
+    } else {
+        alert("Ingrese algo en ambos campos");
+        // console.log();
     }
 }
 
