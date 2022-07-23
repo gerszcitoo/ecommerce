@@ -67,6 +67,7 @@ btnAgregar.onclick = (e) => {
             nodo.setAttribute("class", "card");
             nodo.setAttribute("style", "width: 18rem;");
             nodo.innerHTML = `
+            <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
             <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
             <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
@@ -84,6 +85,7 @@ listaProductos.forEach(elemento => {
     nodo.setAttribute("class", "card");
     nodo.setAttribute("style", "width: 18rem;");
     nodo.innerHTML = `
+    <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
     <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
     <div class="card-body" id="card-body">
     <h5 class="card-title">${elemento.nombre}</h5>

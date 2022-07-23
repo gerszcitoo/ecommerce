@@ -30,6 +30,18 @@ img {
 
 /* ----------MAIN PRODUCTOS---------- */
 
+.close-icon {
+    font-size: 1.5rem;
+    color: white;
+    position: absolute;
+    right: 5px;
+}
+
+.close-icon:hover {
+    color: red;
+    cursor: pointer;
+}
+
 .btn {
     margin: .5rem;
 }
