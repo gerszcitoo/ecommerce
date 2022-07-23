@@ -1,22 +1,27 @@
 let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
 
-// const estadoFormulario = {
-//     mostrar: false
-// }
+// control de boton que activa formulario
+const estadoFormulario = {
+    mostrar: false
+}
 
-// window.onload = btnCrear.onclick = (e) => {
-//     e.preventDefault();
-//     if (estadoFormulario.mostrar) {
-//         formulario.style.display = "block";
-//         estadoFormulario.mostrar = true;
-//     } else {
-//         btnCrear.innerHTML("Cancelar")
-//         formulario.style.display = "none";
-//         estadoFormulario.mostrar = false;
-//     }
-// }
+btnCrear.onclick = (e) => {
+    e.preventDefault();
+    if (estadoFormulario.mostrar) {
+        btnCrear.innerText = "Crear un producto";
+        formulario.style.opacity = 0;
+        estadoFormulario.mostrar = false;
+        console.log(estadoFormulario);
+    } else {
+        btnCrear.innerText = "Cancelar";
+        formulario.style.opacity = 1;
+        estadoFormulario.mostrar = true;
+        console.log(estadoFormulario);
+    }
+}
 
+// control de agregado de productos
 class Producto {
     constructor(nombre, precio) {
         this.nombre = nombre;
@@ -34,7 +39,7 @@ let listaProductos = [
     { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },
 ];
 
-// Función para agregar producto nuevo con value de inputs
+// Función para agregar producto al array nuevo con value de inputs
 const agregarProducto = () => {
     let nombre = document.getElementById("nombre").value;
     nombre = nombre.toUpperCase();
@@ -46,16 +51,13 @@ const agregarProducto = () => {
 }
 
 
-let btnAgregar = document.querySelector("#agregar");
+let btnAgregar = document.getElementById("agregar");
 
+// se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
     document.getElementById("main-cards").innerHTML = ""
     e.preventDefault();
     agregarProducto();
-    let nombre, precio;
-    // nombre = productoNuevo.nombre;
-    // precio = productoNuevo.precio;
-    // Agregar card de producto nuevo
     if (nombre != "" && precio != 0) {
         listaProductos.forEach(elemento => {
             let nodo = document.createElement("div")
@@ -73,7 +75,7 @@ btnAgregar.onclick = (e) => {
     }
 }
 
-// Crea las cards de los productos del array ya declarados
+// Crea las cards de los productos del array ya declarados desde el inicio
 listaProductos.forEach(elemento => {
     let nodo = document.createElement("div")
     nodo.setAttribute("class", "card");
