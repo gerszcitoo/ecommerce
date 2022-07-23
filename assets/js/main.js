@@ -1,3 +1,22 @@
+let btnCrear = document.getElementById("btn-crear");
+let formulario = document.getElementById("formulario");
+
+// const estadoFormulario = {
+//     mostrar: false
+// }
+
+// window.onload = btnCrear.onclick = (e) => {
+//     e.preventDefault();
+//     if (estadoFormulario.mostrar) {
+//         formulario.style.display = "block";
+//         estadoFormulario.mostrar = true;
+//     } else {
+//         btnCrear.innerHTML("Cancelar")
+//         formulario.style.display = "none";
+//         estadoFormulario.mostrar = false;
+//     }
+// }
+
 class Producto {
     constructor(nombre, precio) {
         this.nombre = nombre;
@@ -18,10 +37,11 @@ let listaProductos = [
 // Función para agregar producto nuevo con value de inputs
 const agregarProducto = () => {
     let nombre = document.getElementById("nombre").value;
+    nombre = nombre.toUpperCase();
     let precio = document.getElementById("precio").value;
 
     let productoNuevo = new Producto(nombre, precio);
-    listaProductos.push(productoNuevo);
+    listaProductos.unshift(productoNuevo);
     return productoNuevo;
 }
 
@@ -29,8 +49,12 @@ const agregarProducto = () => {
 let btnAgregar = document.querySelector("#agregar");
 
 btnAgregar.onclick = (e) => {
+    document.getElementById("main-cards").innerHTML = ""
     e.preventDefault();
     agregarProducto();
+    let nombre, precio;
+    // nombre = productoNuevo.nombre;
+    // precio = productoNuevo.precio;
     // Agregar card de producto nuevo
     if (nombre != "" && precio != 0) {
         listaProductos.forEach(elemento => {
@@ -45,11 +69,11 @@ btnAgregar.onclick = (e) => {
             <a href="#" class="btn btn-primary">Añadir al carrito</a>
             `
             document.getElementById("main-cards").appendChild(nodo);
-            console.log(elemento);
         })
     }
-
 }
+
+// Crea las cards de los productos del array ya declarados
 listaProductos.forEach(elemento => {
     let nodo = document.createElement("div")
     nodo.setAttribute("class", "card");
@@ -62,5 +86,4 @@ listaProductos.forEach(elemento => {
     <a href="#" class="btn btn-primary">Añadir al carrito</a>
     `
     document.getElementById("main-cards").appendChild(nodo);
-    console.log(elemento);
 })
