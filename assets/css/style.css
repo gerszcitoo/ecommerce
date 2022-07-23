@@ -30,8 +30,12 @@ img {
 
 /* ----------MAIN PRODUCTOS---------- */
 
+.btn {
+    margin: .5rem;
+}
+
 #formulario {
-    opacity: 0;
+    display: none;
 }
 
 .cards-title {

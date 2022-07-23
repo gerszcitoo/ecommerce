@@ -1,4 +1,5 @@
 let btnCrear = document.getElementById("btn-crear");
+let btnBorrar = document.getElementById("btn-borrar");
 let formulario = document.getElementById("formulario");
 
 // control de boton que activa formulario
@@ -10,16 +11,18 @@ btnCrear.onclick = (e) => {
     e.preventDefault();
     if (estadoFormulario.mostrar) {
         btnCrear.innerText = "Crear un producto";
-        formulario.style.opacity = 0;
+        formulario.style.display = "none";
         estadoFormulario.mostrar = false;
         console.log(estadoFormulario);
     } else {
         btnCrear.innerText = "Cancelar";
-        formulario.style.opacity = 1;
+        formulario.style.display = "block";
         estadoFormulario.mostrar = true;
         console.log(estadoFormulario);
     }
 }
+
+
 
 // control de agregado de productos
 class Producto {
@@ -55,7 +58,7 @@ let btnAgregar = document.getElementById("agregar");
 
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
-    document.getElementById("main-cards").innerHTML = ""
+    document.getElementById("main-cards").innerHTML = "";
     e.preventDefault();
     agregarProducto();
     if (nombre != "" && precio != 0) {
@@ -64,7 +67,7 @@ btnAgregar.onclick = (e) => {
             nodo.setAttribute("class", "card");
             nodo.setAttribute("style", "width: 18rem;");
             nodo.innerHTML = `
-            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
             <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
             <p class="card-text">$${elemento.precio}</p>
@@ -81,7 +84,7 @@ listaProductos.forEach(elemento => {
     nodo.setAttribute("class", "card");
     nodo.setAttribute("style", "width: 18rem;");
     nodo.innerHTML = `
-    <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="...">
+    <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
     <div class="card-body" id="card-body">
     <h5 class="card-title">${elemento.nombre}</h5>
     <p class="card-text">$${elemento.precio}</p>
