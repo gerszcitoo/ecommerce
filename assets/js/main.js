@@ -7,6 +7,7 @@ const estadoFormulario = {
     mostrar: false
 }
 
+
 btnCrear.onclick = (e) => {
     e.preventDefault();
     if (estadoFormulario.mostrar) {
@@ -23,7 +24,6 @@ btnCrear.onclick = (e) => {
 }
 
 
-
 // control de agregado de productos
 class Producto {
     constructor(nombre, precio) {
@@ -34,13 +34,13 @@ class Producto {
 
 let crearProd = document.getElementById("btn-crear");
 
-
-let listaProductos = [
+// lee el localStorage y si está vacío le asigna productos por default
+const listaProductos = JSON.parse(localStorage.getItem("productos")) || [
     { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000 },
     { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599 },
     { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000 },
-    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },
-];
+    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },];
+
 
 // Función para agregar producto al array nuevo con value de inputs
 const agregarProducto = () => {
@@ -50,12 +50,17 @@ const agregarProducto = () => {
 
     let productoNuevo = new Producto(nombre, precio);
     listaProductos.unshift(productoNuevo);
+
+    // guarda el producto en el localStorage
+    localStorage.setItem("productos", JSON.stringify(listaProductos));
+
     return productoNuevo;
 }
 
+// Guardar productos agregados en localstorage
+
 
 let btnAgregar = document.getElementById("agregar");
-
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
     e.preventDefault();
@@ -77,10 +82,11 @@ btnAgregar.onclick = (e) => {
             <a href="#" class="btn btn-primary">Añadir al carrito</a>
             `
             document.getElementById("main-cards").appendChild(nodo);
+            // sessionstorage
+            // sessionStorage.setItem("productos", JSON.stringify(listaProductos));
         })
     } else {
         alert("Ingrese algo en ambos campos");
-        // console.log();
     }
 }
 
@@ -99,3 +105,15 @@ listaProductos.forEach(elemento => {
     `
     document.getElementById("main-cards").appendChild(nodo);
 })
+
+// eliminar productos (en proceso)
+/* var g = document.getElementById('my_div');
+for (var i = 0, len = g.children.length; i < len; i++) {
+
+    (function(index) {
+        g.children[i].onclick = function() {
+            console.log(index);
+        }
+    })(i);
+
+} */
