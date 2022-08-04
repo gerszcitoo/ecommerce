@@ -1,5 +1,4 @@
 let btnCrear = document.getElementById("btn-crear");
-let btnBorrar = document.getElementById("btn-borrar");
 let formulario = document.getElementById("formulario");
 
 // control de boton que activa formulario
@@ -35,11 +34,15 @@ class Producto {
 let crearProd = document.getElementById("btn-crear");
 
 // lee el localStorage y si está vacío le asigna productos por default
+// operador ternario
 const listaProductos = JSON.parse(localStorage.getItem("productos")) || [
     { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000 },
     { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599 },
     { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000 },
     { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },];
+
+const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
 
 
 // Función para agregar producto al array nuevo con value de inputs
@@ -82,11 +85,9 @@ btnAgregar.onclick = (e) => {
             <a href="#" class="btn btn-primary">Añadir al carrito</a>
             `
             document.getElementById("main-cards").appendChild(nodo);
-            // sessionstorage
-            // sessionStorage.setItem("productos", JSON.stringify(listaProductos));
         })
     } else {
-        alert("Ingrese algo en ambos campos");
+        Swal.fire("Por favor, ingrese un valor en ambos campos");
     }
 }
 
@@ -105,15 +106,3 @@ listaProductos.forEach(elemento => {
     `
     document.getElementById("main-cards").appendChild(nodo);
 })
-
-// eliminar productos (en proceso)
-/* var g = document.getElementById('my_div');
-for (var i = 0, len = g.children.length; i < len; i++) {
-
-    (function(index) {
-        g.children[i].onclick = function() {
-            console.log(index);
-        }
-    })(i);
-
-} */
