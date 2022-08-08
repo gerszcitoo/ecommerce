@@ -3,17 +3,15 @@ let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
 let navLogin = document.getElementById("nav-login");
 
-// control de boton que activa formulario
-const estadoFormulario = {
-    mostrar: false
-}
+//-----------USO DE API-----------
 
-const adminLogin = JSON.parse(localStorage.getItem("adminLogin"));
+const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
+    admin: false
+}
 
 if (adminLogin.admin) {
     navLogin.innerText = "Cerrar Sesión";
 } else {
-    //-----------USO DE API-----------
     // si adminLogin.admin == false, muestra usuario
     let insertUser = document.getElementById("user-profile");
 
@@ -33,6 +31,12 @@ if (adminLogin.admin) {
     }
 
     window.onload = generateUser();
+}
+
+// ---------FORMULARIO---------
+// control de boton que activa formulario
+const estadoFormulario = {
+    mostrar: false
 }
 
 btnCrear.onclick = (e) => {
