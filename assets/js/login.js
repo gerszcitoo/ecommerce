@@ -1,6 +1,7 @@
 // -----------LOGIN------------
 let login = document.getElementById("login")
 let btnLogin = document.getElementById("btn-login");
+let navLogin = document.getElementById("nav-login");
 
 // Si adminLogin no existe, lo crea y le establece admin: false
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
@@ -8,6 +9,7 @@ const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
 }
 
 if (adminLogin.admin) {
+    navLogin.innerText = "Cerrar Sesión";
     login.innerHTML = "";
     login.innerHTML = `
     <h1>Hola, admin</h1>

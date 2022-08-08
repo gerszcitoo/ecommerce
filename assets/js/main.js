@@ -1,6 +1,7 @@
 // -----------VISTA ADMIN---------
 let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
+let navLogin = document.getElementById("nav-login");
 
 // control de boton que activa formulario
 const estadoFormulario = {
@@ -9,6 +10,9 @@ const estadoFormulario = {
 
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin"));
 
+if (adminLogin.admin) {
+    navLogin.innerText = "Cerrar Sesión";
+}
 
 btnCrear.onclick = (e) => {
     e.preventDefault();
