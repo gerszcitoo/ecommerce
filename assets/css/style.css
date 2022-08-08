@@ -21,6 +21,14 @@ img {
     user-select: none;
 }
 
+p {
+    margin-bottom: 0;
+}
+
+.nav-item {
+    right: 0 !important;
+}
+
 
 /* ----------MAIN ADMIN---------- */
 
@@ -100,4 +108,21 @@ img {
 
 .login-submit {
     margin-top: 1rem;
+}
+
+
+/* ---------USER PROFILE--------- */
+
+#user-profile {
+    display: flex;
+    align-items: center;
+}
+
+#user-name {
+    font-weight: 500;
+    margin-right: 1rem;
+}
+
+#user-pic {
+    border-radius: 100%;
 }

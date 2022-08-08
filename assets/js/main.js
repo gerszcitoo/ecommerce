@@ -12,6 +12,27 @@ const adminLogin = JSON.parse(localStorage.getItem("adminLogin"));
 
 if (adminLogin.admin) {
     navLogin.innerText = "Cerrar Sesión";
+} else {
+    //-----------USO DE API-----------
+    // si adminLogin.admin == false, muestra usuario
+    let insertUser = document.getElementById("user-profile");
+
+    // función para generar html con API
+    const generateUser = async() => {
+        try {
+            let response = await fetch('https://randomuser.me/api/');
+            let resultado = await response.json();
+            console.log(resultado.results[0]);
+            insertUser.innerHTML = `
+        <p id="user-name">Hola, ${resultado.results[0].name.first} ${resultado.results[0].name.last}</p>
+        <img src="${resultado.results[0].picture.medium}" id="user-pic">
+        `
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    window.onload = generateUser();
 }
 
 btnCrear.onclick = (e) => {

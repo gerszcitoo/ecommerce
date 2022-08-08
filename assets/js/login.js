@@ -8,6 +8,7 @@ const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
     admin: false
 }
 
+// Si ya inició sesión modifica interfaz
 if (adminLogin.admin) {
     navLogin.innerText = "Cerrar Sesión";
     login.innerHTML = "";
@@ -24,6 +25,36 @@ if (adminLogin.admin) {
     }
 }
 
+//-----------USO DE API-----------
+let insertUser = document.getElementById("user-profile");
+
+// función para generar html con API
+const generateUser = async() => {
+    try {
+        let response = await fetch('https://randomuser.me/api/');
+        let resultado = await response.json();
+        console.log(resultado.results[0]);
+        insertUser.innerHTML = `
+        <p id="user-name">Hola, ${resultado.results[0].name.first} ${resultado.results[0].name.last}</p>
+        <img src="${resultado.results[0].picture.medium}" id="user-pic">
+        `
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+// si no es admin, muestra perfil random
+if (adminLogin.admin == false) {
+    window.onload = generateUser();
+}
+
+
+
+
+
+
+
+// login
 btnLogin.onclick = (e) => {
     e.preventDefault();
     let user = document.getElementById("user").value;
@@ -38,7 +69,6 @@ btnLogin.onclick = (e) => {
             icon: 'error',
             title: 'Hubo un problema...',
             text: 'No se pudo ingresar a "' + user + '"',
-            var: user
         })
     }
     localStorage.setItem("adminLogin", JSON.stringify(adminLogin));
