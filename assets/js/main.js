@@ -1,3 +1,4 @@
+// -----------VISTA ADMIN---------
 let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
 
@@ -6,9 +7,12 @@ const estadoFormulario = {
     mostrar: false
 }
 
+const adminLogin = JSON.parse(localStorage.getItem("adminLogin"));
+
 
 btnCrear.onclick = (e) => {
     e.preventDefault();
+    console.log(adminLogin.admin);
     if (estadoFormulario.mostrar) {
         btnCrear.innerText = "Crear un producto";
         formulario.style.display = "none";
@@ -39,7 +43,8 @@ const listaProductos = JSON.parse(localStorage.getItem("productos")) || [
     { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000 },
     { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599 },
     { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000 },
-    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },];
+    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },
+];
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
