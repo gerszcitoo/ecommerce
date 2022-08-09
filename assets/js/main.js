@@ -14,6 +14,7 @@ if (adminLogin.admin) {
     navLogin.innerText = "Cerrar Sesión";
     let vistaVendedor = document.getElementById("vista-vendedor");
     vistaVendedor.innerHTML = "(vista del vendedor)";
+    formulario.style.display = "none";
 } else {
     // si adminLogin.admin == false, muestra usuario
     let insertUser = document.getElementById("user-profile");
