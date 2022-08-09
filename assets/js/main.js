@@ -2,6 +2,7 @@
 let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
 let navLogin = document.getElementById("nav-login");
+// let btnBorrar = document.getElementById("btn-borrar");
 
 //-----------USO DE API-----------
 
@@ -11,25 +12,29 @@ const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
 
 if (adminLogin.admin) {
     navLogin.innerText = "Cerrar Sesión";
+    let vistaVendedor = document.getElementById("vista-vendedor");
+    vistaVendedor.innerHTML = "(vista del vendedor)";
 } else {
     // si adminLogin.admin == false, muestra usuario
     let insertUser = document.getElementById("user-profile");
-
+    // oculta botón de crear producto
+    btnCrear.style.display = "none";
     // función para generar html con API
     const generateUser = async() => {
         try {
             let response = await fetch('https://randomuser.me/api/');
             let resultado = await response.json();
-            console.log(resultado.results[0]);
+            // manda perfil a sessionStorage
+            sessionStorage.setItem("profileCreated", JSON.stringify(resultado.results[0]));
+            console.log(JSON.parse(sessionStorage.getItem("profileCreated")));
             insertUser.innerHTML = `
-        <p id="user-name">Hola, ${resultado.results[0].name.first} ${resultado.results[0].name.last}</p>
-        <img src="${resultado.results[0].picture.medium}" id="user-pic">
-        `
+            <p id="user-name">Hola, ${resultado.results[0].name.first} ${resultado.results[0].name.last}</p>
+            <img src="${resultado.results[0].picture.medium}" id="user-pic">
+            `
         } catch (error) {
             console.log(error);
         }
     }
-
     window.onload = generateUser();
 }
 
