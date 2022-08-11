@@ -25,34 +25,44 @@ if (adminLogin.admin) {
     }
 }
 
-//-----------USO DE API-----------
-let insertUser = document.getElementById("user-profile");
-
-// función para generar html con API
-const generateUser = async() => {
-    try {
-        let response = await fetch('https://randomuser.me/api/');
-        let resultado = await response.json();
-        console.log(resultado.results[0]);
-        insertUser.innerHTML = `
-        <p id="user-name">Hola, ${resultado.results[0].name.first} ${resultado.results[0].name.last}</p>
-        <img src="${resultado.results[0].picture.medium}" id="user-pic">
-        `
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 // si no es admin, muestra perfil random
 if (adminLogin.admin == false) {
-    window.onload = generateUser();
+    //-----------USO DE API-----------
+    let insertUser = document.getElementById("user-profile");
+
+    const crearUsuario = () => {
+        let nombreUser = JSON.parse(sessionStorage.getItem("nombreUser"));
+        let apellidoUser = JSON.parse(sessionStorage.getItem("apellidoUser"));
+        let fotoUser = JSON.parse(sessionStorage.getItem("fotoUser"));
+        // generar html con API
+        insertUser.innerHTML = `
+                <p id="user-name">Hola, ${nombreUser} ${apellidoUser}</p>
+                <img src="${fotoUser}" id="user-pic">
+                `
+    }
+    if (sessionStorage.getItem("nombreUser") != null) {
+        crearUsuario();
+    } else {
+        fetch('https://randomuser.me/api/')
+            .then(response => response.json())
+            .then(resultado => {
+                // manda perfil a sessionStorage
+                let apiNombre = resultado.results[0].name.first;
+                let apiApellido = resultado.results[0].name.last;
+                let apiFoto = resultado.results[0].picture.medium;
+                sessionStorage.setItem("nombreUser", JSON.stringify(apiNombre));
+                sessionStorage.setItem("apellidoUser", JSON.stringify(apiApellido));
+                sessionStorage.setItem("fotoUser", JSON.stringify(apiFoto));
+                // generar html con API
+                insertUser.innerHTML = `
+                    <p id="user-name">Hola, ${apiNombre} ${apiApellido}</p>
+                    <img src="${apiFoto}" id="user-pic">
+                    `
+            })
+    }
+
 }
-
-
-
-
-
-
 
 // login
 btnLogin.onclick = (e) => {
