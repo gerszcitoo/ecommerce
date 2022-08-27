@@ -16,6 +16,10 @@ if (adminLogin.admin) {
     let vistaVendedor = document.getElementById("vista-vendedor");
     vistaVendedor.innerHTML = "(vista del vendedor)";
     formulario.style.display = "none";
+    insertUser.innerHTML = `
+                <p id="user-name">Hola, Administrador</p>
+                <img src="./assets/img/default-user-img.png" id="user-pic">
+                `
 } else {
     // si adminLogin.admin == false, muestra usuario
     // oculta botón de crear producto
@@ -44,10 +48,14 @@ if (adminLogin.admin) {
                 sessionStorage.setItem("fotoUser", JSON.stringify(apiFoto));
                 // generar html con API
                 insertUser.innerHTML = `
-                    <p id="user-name">Hola, ${apiNombre} ${apiApellido}</p>
-                    <img src="${apiFoto}" id="user-pic">
-                    `
+                <p id="user-name">Hola, ${apiNombre} ${apiApellido}</p>
+                <img src="${apiFoto}" id="user-pic">
+                `
             })
+            .catch(error => console.log(error), insertUser.innerHTML = `
+            <p id="user-name">Cargando usuario...</p>
+            <img src="./assets/img/default-user-img.png" id="user-pic">
+            `)
     }
 }
 
@@ -78,9 +86,10 @@ btnCrear.onclick = (e) => {
 
 // control de agregado de productos
 class Producto {
-    constructor(nombre, precio) {
+    constructor(nombre, precio, id) {
         this.nombre = nombre;
         this.precio = precio;
+        this.id = id;
     }
 }
 
@@ -89,33 +98,30 @@ let crearProd = document.getElementById("btn-crear");
 // lee el localStorage y si está vacío le asigna productos por default
 // operador ternario
 const listaProductos = JSON.parse(localStorage.getItem("productos")) || [
-    { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000 },
-    { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599 },
-    { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000 },
-    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300 },
+    { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
+    { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
+    { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
+    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
 ];
 
-const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-
-
 // Función para agregar producto al array nuevo con value de inputs
+let id = 4;
 const agregarProducto = () => {
     let nombre = document.getElementById("nombre").value;
     nombre = nombre.toUpperCase();
     let precio = document.getElementById("precio").value;
-
-    let productoNuevo = new Producto(nombre, precio);
+    id++;
+    console.log("el id es: " + id);
+    let productoNuevo = new Producto(nombre, precio, id);
     listaProductos.unshift(productoNuevo);
 
     // guarda el producto en el localStorage
     localStorage.setItem("productos", JSON.stringify(listaProductos));
-
     return productoNuevo;
 }
 
-// Guardar productos agregados en localstorage
-
+// crea array del carrito
+const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
 let btnAgregar = document.getElementById("agregar");
 // se crea la card con el contenido del formulario
@@ -131,14 +137,25 @@ btnAgregar.onclick = (e) => {
             nodo.setAttribute("class", "card");
             nodo.setAttribute("style", "width: 18rem;");
             nodo.innerHTML = `
-            <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
-            <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
-            <div class="card-body" id="card-body">
-            <h5 class="card-title">${elemento.nombre}</h5>
-            <p class="card-text">$${elemento.precio}</p>
-            <a href="#" class="btn btn-primary">Añadir al carrito</a>
+                <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
+                <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
+                <div class="card-body" id="card-body">
+                    <h5 class="card-title">${elemento.nombre}</h5>
+                    <p class="card-text">$${elemento.precio}</p>
+                    <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
+                </div>
             `
             document.getElementById("main-cards").appendChild(nodo);
+
+            const addToCart = document.getElementById(`button${elemento.id}`);
+            addToCart.addEventListener('click', () => {
+                // Agrega al array carrito el producto y lo sube a localStorage
+                carrito.unshift(elemento);
+                localStorage.setItem("carrito", JSON.stringify(carrito));
+
+                Swal.fire("Agregaste: " + elemento.nombre);
+                console.log(`clickeado ${elemento.id}`);
+            })
         })
     } else {
         Swal.fire("Por favor, ingrese un valor en ambos campos");
@@ -151,12 +168,22 @@ listaProductos.forEach(elemento => {
     nodo.setAttribute("class", "card");
     nodo.setAttribute("style", "width: 18rem;");
     nodo.innerHTML = `
-    <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
-    <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
-    <div class="card-body" id="card-body">
-    <h5 class="card-title">${elemento.nombre}</h5>
-    <p class="card-text">$${elemento.precio}</p>
-    <a href="#" class="btn btn-primary">Añadir al carrito</a>
-    `
+        <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
+        <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
+        <div class="card-body" id="card-body">
+            <h5 class="card-title">${elemento.nombre}</h5>
+            <p class="card-text">$${elemento.precio}</p>
+            <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
+        </div> 
+        `
     document.getElementById("main-cards").appendChild(nodo);
+    const addToCart = document.getElementById(`button${elemento.id}`);
+    addToCart.addEventListener('click', () => {
+        // Agrega al array carrito el producto y lo sube a localStorage
+        carrito.unshift(elemento);
+        localStorage.setItem("carrito", JSON.stringify(carrito));
+
+        Swal.fire("Agregaste: " + elemento.nombre);
+        console.log(`clickeado ${elemento.id}`);
+    })
 })

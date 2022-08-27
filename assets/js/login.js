@@ -2,6 +2,7 @@
 let login = document.getElementById("login")
 let btnLogin = document.getElementById("btn-login");
 let navLogin = document.getElementById("nav-login");
+let insertUser = document.getElementById("user-profile");
 
 // Si adminLogin no existe, lo crea y le establece admin: false
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
@@ -10,6 +11,11 @@ const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
 
 // Si ya inició sesión modifica interfaz
 if (adminLogin.admin) {
+    // inserta imagen de admin
+    insertUser.innerHTML = `
+                <p id="user-name">Hola, Administrador</p>
+                <img src="../assets/img/default-user-img.png" id="user-pic">
+                `
     navLogin.innerText = "Cerrar Sesión";
     login.innerHTML = "";
     login.innerHTML = `
@@ -29,8 +35,6 @@ if (adminLogin.admin) {
 // si no es admin, muestra perfil random
 if (adminLogin.admin == false) {
     //-----------USO DE API-----------
-    let insertUser = document.getElementById("user-profile");
-
     const crearUsuario = () => {
         let nombreUser = JSON.parse(sessionStorage.getItem("nombreUser"));
         let apellidoUser = JSON.parse(sessionStorage.getItem("apellidoUser"));
@@ -60,6 +64,10 @@ if (adminLogin.admin == false) {
                     <img src="${apiFoto}" id="user-pic">
                     `
             })
+            .catch(error => console.log(error), insertUser.innerHTML = `
+            <p id="user-name">Cargando usuario...</p>
+            <img src="./assets/img/default-user-img.png" id="user-pic">
+            `)
     }
 
 }
