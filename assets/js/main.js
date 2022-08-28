@@ -119,8 +119,10 @@ const agregarProducto = () => {
 }
 
 // crea array del carrito
+
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let btnAgregar = document.getElementById("agregar");
+
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
     e.preventDefault();
