@@ -1,10 +1,8 @@
-// -----------VISTA ADMIN---------
 let btnCrear = document.getElementById("btn-crear");
 let formulario = document.getElementById("formulario");
 let navLogin = document.getElementById("nav-login");
 let insertUser = document.getElementById("user-profile");
-// let btnBorrar = document.getElementById("btn-borrar");
-
+let prodComprados = document.getElementById("prod-comprados");
 //-----------USO DE API-----------
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
     admin: false
@@ -122,7 +120,6 @@ const agregarProducto = () => {
 
 // crea array del carrito
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
 let btnAgregar = document.getElementById("agregar");
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
@@ -137,7 +134,7 @@ btnAgregar.onclick = (e) => {
             nodo.setAttribute("class", "card");
             nodo.setAttribute("style", "width: 18rem;");
             nodo.innerHTML = `
-                <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
+                <a class="close-icon"><i class="fa-solid fa-xmark"></i></a>
                 <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
@@ -149,6 +146,9 @@ btnAgregar.onclick = (e) => {
 
             const addToCart = document.getElementById(`button${elemento.id}`);
             addToCart.addEventListener('click', () => {
+                // modifica navbar
+                contadorProductos++;
+                contadorProd();
                 // Agrega al array carrito el producto y lo sube a localStorage
                 carrito.unshift(elemento);
                 localStorage.setItem("carrito", JSON.stringify(carrito));
@@ -162,13 +162,27 @@ btnAgregar.onclick = (e) => {
     }
 }
 
+// ------NUMERO CARRITO EN NAVBAR----------
+let contadorProductos = localStorage.getItem("prod-comprados");
+
+function contadorProd() {
+    prodComprados.innerHTML = `${contadorProductos}`;
+    prodComprados.style.display = "block";
+    localStorage.setItem("prod-comprados", contadorProductos);
+}
+if (contadorProductos > 0 && contadorProductos != undefined) {
+    contadorProd();
+} else {
+    prodComprados.style.display = "none";
+}
+
 // Crea las cards de los productos del array ya declarados desde el inicio
 listaProductos.forEach(elemento => {
     let nodo = document.createElement("div")
     nodo.setAttribute("class", "card");
     nodo.setAttribute("style", "width: 18rem;");
     nodo.innerHTML = `
-        <a id="btn-borrar"><i class="fa-solid fa-xmark close-icon"></i></a>
+        <a class="close-icon"><i class="fa-solid fa-xmark"></i></a>
         <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
@@ -179,6 +193,9 @@ listaProductos.forEach(elemento => {
     document.getElementById("main-cards").appendChild(nodo);
     const addToCart = document.getElementById(`button${elemento.id}`);
     addToCart.addEventListener('click', () => {
+        // modifica navbar
+        contadorProductos++;
+        contadorProd();
         // Agrega al array carrito el producto y lo sube a localStorage
         carrito.unshift(elemento);
         localStorage.setItem("carrito", JSON.stringify(carrito));

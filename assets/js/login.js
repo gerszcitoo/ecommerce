@@ -72,6 +72,19 @@ if (adminLogin.admin == false) {
 
 }
 
+// ------NUMERO CARRITO EN NAVBAR----------
+let prodComprados = document.getElementById("prod-comprados");
+let contadorProductos = localStorage.getItem("prod-comprados");
+
+function contadorProd() {
+    prodComprados.innerHTML = `${contadorProductos}`;
+    prodComprados.style.display = "block";
+    if (contadorProductos <= 0 || contadorProductos == undefined) {
+        prodComprados.style.display = "none";
+    }
+}
+contadorProd();
+
 // login
 btnLogin.onclick = (e) => {
     e.preventDefault();
