@@ -90,12 +90,29 @@ p {
 
 .main-cards {
     display: grid;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 1rem;
     align-items: center;
     justify-content: center;
     margin: 1rem;
+}
+
+@media (max-width: 1230px) {
+    .main-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 964px) {
+    .main-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .main-cards {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 
