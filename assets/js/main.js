@@ -75,7 +75,7 @@ btnCrear.onclick = (e) => {
         console.log(estadoFormulario);
     } else {
         btnCrear.innerText = "Cancelar";
-        formulario.style.display = "block";
+        formulario.style.display = "flex";
         estadoFormulario.mostrar = true;
         console.log(estadoFormulario);
     }
@@ -139,7 +139,7 @@ btnAgregar.onclick = (e) => {
             nodo.setAttribute("style", "width: 18rem;");
             nodo.innerHTML = `
                 <a class="close-icon"><i class="fa-solid fa-xmark"></i></a>
-                <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
+                <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">ag
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
                     <p class="card-text">$${elemento.precio}</p>

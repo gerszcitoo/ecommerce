@@ -79,6 +79,8 @@ p {
 
 #formulario {
     display: none;
+    flex-direction: column;
+    align-items: center;
 }
 
 .cards-title {
