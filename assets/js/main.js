@@ -122,7 +122,8 @@ const agregarProducto = () => {
 
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let btnAgregar = document.getElementById("agregar");
-
+// ..................
+let idProd = 0;
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
     e.preventDefault();
@@ -132,6 +133,7 @@ btnAgregar.onclick = (e) => {
         document.getElementById("nombre").value = "";
         document.getElementById("precio").value = "";
         listaProductos.forEach(elemento => {
+            idProd++;
             let nodo = document.createElement("div")
             nodo.setAttribute("class", "card");
             nodo.setAttribute("style", "width: 18rem;");
@@ -141,12 +143,14 @@ btnAgregar.onclick = (e) => {
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
                     <p class="card-text">$${elemento.precio}</p>
-                    <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
+                    <button class="btn btn-primary" id="button${idProd}">Añadir al carrito</button>
                 </div>
             `
             document.getElementById("main-cards").appendChild(nodo);
 
-            const addToCart = document.getElementById(`button${elemento.id}`);
+            const addToCart = document.getElementById(`button${idProd}`);
+            console.log(elemento.id);
+
             addToCart.addEventListener('click', () => {
                 // modifica navbar
                 contadorProductos++;
@@ -180,6 +184,7 @@ if (contadorProductos > 0 && contadorProductos != undefined) {
 
 // Crea las cards de los productos del array ya declarados desde el inicio
 listaProductos.forEach(elemento => {
+    idProd++;
     let nodo = document.createElement("div")
     nodo.setAttribute("class", "card");
     nodo.setAttribute("style", "width: 18rem;");
@@ -189,11 +194,13 @@ listaProductos.forEach(elemento => {
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
             <p class="card-text">$${elemento.precio}</p>
-            <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
+            <button class="btn btn-primary" id="button${idProd}">Añadir al carrito</button>
         </div> 
         `
     document.getElementById("main-cards").appendChild(nodo);
-    const addToCart = document.getElementById(`button${elemento.id}`);
+    const addToCart = document.getElementById(`button${idProd}`);
+    console.log(elemento.id);
+
     addToCart.addEventListener('click', () => {
         // modifica navbar
         contadorProductos++;

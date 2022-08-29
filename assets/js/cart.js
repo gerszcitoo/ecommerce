@@ -2,7 +2,8 @@ let insertUser = document.getElementById("user-profile");
 let navLogin = document.getElementById("nav-login");
 let carritoContainer = document.getElementById("cart-container");
 let confirmaCompra = document.getElementById("confirma-compra");
-
+let totalCarrito = document.getElementById("total");
+let sumaTotal = 0;
 //=========== USO DE API ===========
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
     admin: false
@@ -79,13 +80,17 @@ carritoCompleto.forEach(producto => {
                                 <div class="cart-item">
                                     <p class="card-title">${producto.nombre}</p>
                                     <p class="card-text">$${producto.precio}</p>
-                                    <button class="btn btn-danger btn-sm" id="borrar${idProd}">x</button>
+                                    <button class="btn btn-danger btn-sm elim-prod" id="borrar${idProd}">x</button>
                                 </div>
                                 `
+    let precio = parseInt(producto.precio);
+    sumaTotal = sumaTotal + precio;
     carritoContainer.appendChild(prodCarrito);
     let btnBorrar = document.getElementById(`borrar${idProd}`);
     btnBorrar.addEventListener('click', (e) => {
         // modifica navbar
+        sumaTotal = sumaTotal - precio;
+        calcTotal();
         contadorProductos--;
         contadorProd();
         if (contadorProductos <= 0 || contadorProductos == undefined) {
@@ -146,3 +151,12 @@ if (carritoCompleto === undefined || carritoCompleto.length == 0) {
         })
     }
 }
+// ========TOTAL=======
+function calcTotal() {
+    if (sumaTotal == 0) {
+        totalCarrito.style.display = "none";
+    } else {
+        totalCarrito.innerHTML = `Total $${sumaTotal}`;
+    }
+}
+calcTotal();

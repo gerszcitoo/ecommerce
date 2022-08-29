@@ -170,6 +170,7 @@ p {
 }
 
 .cart-item {
+    padding: 10px;
     background-color: white;
     border: none;
     border-radius: 5px;
@@ -178,4 +179,11 @@ p {
 
 #confirma-compra {
     display: none;
+    margin-bottom: 1rem;
+}
+
+.elim-prod {
+    position: absolute;
+    margin-top: -70px;
+    margin-left: 125px;
 }
