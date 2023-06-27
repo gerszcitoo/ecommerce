@@ -138,7 +138,7 @@ btnAgregar.onclick = (e) => {
       nodo.setAttribute("class", "card");
       nodo.setAttribute("style", "width: 18rem;");
       nodo.innerHTML = `
-                <a class="close-icon"><i class="fa-solid fa-xmark"></i></a>
+                <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
                 <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
@@ -147,8 +147,8 @@ btnAgregar.onclick = (e) => {
                 </div>
             `;
       document.getElementById("main-cards").appendChild(nodo);
-
       const addToCart = document.getElementById(`button${idProd}`);
+      const deleteProduct = document.getElementById(`delete${idProd}`);
       console.log(elemento.id);
 
       addToCart.addEventListener("click", () => {
@@ -161,6 +161,16 @@ btnAgregar.onclick = (e) => {
 
         Swal.fire("Agregaste: " + elemento.nombre);
         console.log(`clickeado ${elemento.id}`);
+      });
+      deleteProduct.addEventListener("click", () => {
+        let deleteIndex = listaProductos.findIndex(function (product) {
+          return product.nombre === elemento.nombre;
+        });
+        if (deleteIndex !== -1) {
+          listaProductos.splice(deleteIndex, 1);
+          document.getElementById("main-cards").removeChild(nodo);
+          localStorage.setItem("productos", JSON.stringify(listaProductos));
+        }
       });
     });
   } else {
@@ -189,7 +199,7 @@ listaProductos.forEach((elemento) => {
   nodo.setAttribute("class", "card");
   nodo.setAttribute("style", "width: 18rem;");
   nodo.innerHTML = `
-        <a class="close-icon"><i class="fa-solid fa-xmark"></i></a>
+        <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
         <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
@@ -199,6 +209,7 @@ listaProductos.forEach((elemento) => {
         `;
   document.getElementById("main-cards").appendChild(nodo);
   const addToCart = document.getElementById(`button${idProd}`);
+  const deleteProduct = document.getElementById(`delete${idProd}`);
   console.log(elemento.id);
 
   addToCart.addEventListener("click", () => {
@@ -211,5 +222,16 @@ listaProductos.forEach((elemento) => {
 
     Swal.fire("Agregaste: " + elemento.nombre);
     console.log(`clickeado ${elemento.id}`);
+  });
+
+  deleteProduct.addEventListener("click", () => {
+    let deleteIndex = listaProductos.findIndex(function (product) {
+      return product.nombre === elemento.nombre;
+    });
+    if (deleteIndex !== -1) {
+      listaProductos.splice(deleteIndex, 1);
+      document.getElementById("main-cards").removeChild(nodo);
+      localStorage.setItem("productos", JSON.stringify(listaProductos));
+    }
   });
 });
