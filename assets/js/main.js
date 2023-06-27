@@ -3,6 +3,7 @@ let formulario = document.getElementById("formulario");
 let navLogin = document.getElementById("nav-login");
 let insertUser = document.getElementById("user-profile");
 let prodComprados = document.getElementById("prod-comprados");
+let deletableProd = false;
 //-----------USO DE API-----------
 const adminLogin = JSON.parse(localStorage.getItem("adminLogin")) || {
   admin: false,
@@ -18,9 +19,11 @@ if (adminLogin.admin) {
                 <p id="user-name">Hola, Administrador</p>
                 <img src="./assets/img/default-user-img.png" id="user-pic">
                 `;
+  deletableProd = true;
 } else {
   // si adminLogin.admin == false, muestra usuario
   // oculta botón de crear producto
+  deletableProd = false;
   btnCrear.style.display = "none";
   const crearUsuario = () => {
     let nombreUser = JSON.parse(sessionStorage.getItem("nombreUser"));
@@ -95,12 +98,21 @@ let crearProd = document.getElementById("btn-crear");
 
 // lee el localStorage y si está vacío le asigna productos por default
 // operador ternario
-const listaProductos = JSON.parse(localStorage.getItem("productos")) || [
+let listaProductos = JSON.parse(localStorage.getItem("productos")) || [
   { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
   { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
   { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
   { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
 ];
+
+if (localStorage.getItem("productos") == "[]") {
+  listaProductos = [
+    { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
+    { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
+    { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
+    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
+  ];
+}
 
 // Función para agregar producto al array nuevo con value de inputs
 let id = 4;
@@ -138,7 +150,6 @@ btnAgregar.onclick = (e) => {
       nodo.setAttribute("class", "card");
       nodo.setAttribute("style", "width: 18rem;");
       nodo.innerHTML = `
-                <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
                 <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
@@ -150,6 +161,12 @@ btnAgregar.onclick = (e) => {
       const addToCart = document.getElementById(`button${idProd}`);
       const deleteProduct = document.getElementById(`delete${idProd}`);
       console.log(elemento.id);
+      if (deletableProd) {
+        console.log("hola");
+        nodo.innerHTML += `
+                    <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
+                    `;
+      }
 
       addToCart.addEventListener("click", () => {
         // modifica navbar
@@ -191,7 +208,6 @@ if (contadorProductos > 0 && contadorProductos != undefined) {
 } else {
   prodComprados.style.display = "none";
 }
-
 // Crea las cards de los productos del array ya declarados desde el inicio
 listaProductos.forEach((elemento) => {
   idProd++;
@@ -199,7 +215,6 @@ listaProductos.forEach((elemento) => {
   nodo.setAttribute("class", "card");
   nodo.setAttribute("style", "width: 18rem;");
   nodo.innerHTML = `
-        <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
         <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
@@ -207,6 +222,12 @@ listaProductos.forEach((elemento) => {
             <button class="btn btn-primary" id="button${idProd}">Añadir al carrito</button>
         </div> 
         `;
+  if (deletableProd) {
+    console.log("hola");
+    nodo.innerHTML += `
+          <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
+          `;
+  }
   document.getElementById("main-cards").appendChild(nodo);
   const addToCart = document.getElementById(`button${idProd}`);
   const deleteProduct = document.getElementById(`delete${idProd}`);
