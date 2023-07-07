@@ -128,7 +128,7 @@ const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let btnAgregar = document.getElementById("agregar");
 // ..................
 // se crea la card con el contenido del formulario
-btnAgregar.onclick = (e) => {
+btnAgregar.addEventListener("click", (e) => {
   e.preventDefault();
   if (nombre.value != "" && precio.value != "") {
     document.getElementById("main-cards").innerHTML = "";
@@ -166,21 +166,23 @@ btnAgregar.onclick = (e) => {
 
         Swal.fire("Agregaste: " + elemento.nombre);
       });
-      deleteProduct.addEventListener("click", () => {
-        let deleteIndex = listaProductos.findIndex(function (product) {
-          return product.nombre === elemento.nombre;
+      document.addEventListener("DOMContentLoaded", function () {
+        deleteProduct.addEventListener("click", () => {
+          let deleteIndex = listaProductos.findIndex(function (product) {
+            return product.nombre === elemento.nombre;
+          });
+          if (deleteIndex !== -1) {
+            listaProductos.splice(deleteIndex, 1);
+            document.getElementById("main-cards").removeChild(nodo);
+            localStorage.setItem("productos", JSON.stringify(listaProductos));
+          }
         });
-        if (deleteIndex !== -1) {
-          listaProductos.splice(deleteIndex, 1);
-          document.getElementById("main-cards").removeChild(nodo);
-          localStorage.setItem("productos", JSON.stringify(listaProductos));
-        }
       });
     });
   } else {
     Swal.fire("Por favor, ingrese un valor en ambos campos");
   }
-};
+});
 
 // ------NUMERO CARRITO EN NAVBAR----------
 let contadorProductos = localStorage.getItem("prod-comprados");
@@ -206,18 +208,30 @@ listaProductos.forEach((elemento) => {
             <h5 class="card-title">${elemento.nombre}</h5>
             <p class="card-text">$${elemento.precio}</p>
             <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
-        </div> 
+        </div>
         `;
-  if (deletableProd) {
-    nodo.innerHTML += `
-          <a class="close-icon" id="delete${elemento.id}"><i class="fa-solid fa-xmark"></i></a>
-          `;
-  }
+  document.addEventListener("DOMContentLoaded", function () {
+    if (deletableProd) {
+      nodo.innerHTML += `
+        <a class="close-icon" id="delete${elemento.id}"><i class="fa-solid fa-xmark"></i></a>
+        `;
+      const deleteProduct = document.getElementById(`delete${elemento.id}`);
+      console.log(deleteProduct);
+      deleteProduct.addEventListener("click", () => {
+        let deleteIndex = listaProductos.findIndex(function (product) {
+          return product.nombre === elemento.nombre;
+        });
+        if (deleteIndex !== -1) {
+          listaProductos.splice(deleteIndex, 1);
+          document.getElementById("main-cards").removeChild(nodo);
+          localStorage.setItem("productos", JSON.stringify(listaProductos));
+        }
+      });
+    }
+  });
+
   document.getElementById("main-cards").appendChild(nodo);
   const addToCart = document.getElementById(`button${elemento.id}`);
-  console.log(addToCart);
-  const deleteProduct = document.getElementById(`delete${elemento.id}`);
-
   addToCart.addEventListener("click", () => {
     // modifica navbar
     contadorProductos++;
@@ -225,18 +239,6 @@ listaProductos.forEach((elemento) => {
     // Agrega al array carrito el producto y lo sube a localStorage
     carrito.unshift(elemento);
     localStorage.setItem("carrito", JSON.stringify(carrito));
-
     Swal.fire("Agregaste: " + elemento.nombre);
-  });
-
-  deleteProduct.addEventListener("click", () => {
-    let deleteIndex = listaProductos.findIndex(function (product) {
-      return product.nombre === elemento.nombre;
-    });
-    if (deleteIndex !== -1) {
-      listaProductos.splice(deleteIndex, 1);
-      document.getElementById("main-cards").removeChild(nodo);
-      localStorage.setItem("productos", JSON.stringify(listaProductos));
-    }
   });
 });
