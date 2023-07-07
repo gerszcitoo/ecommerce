@@ -71,17 +71,14 @@ const estadoFormulario = {
 
 btnCrear.onclick = (e) => {
   e.preventDefault();
-  console.log(adminLogin.admin);
   if (estadoFormulario.mostrar) {
     btnCrear.innerText = "Crear un producto";
     formulario.style.display = "none";
     estadoFormulario.mostrar = false;
-    console.log(estadoFormulario);
   } else {
     btnCrear.innerText = "Cancelar";
     formulario.style.display = "flex";
     estadoFormulario.mostrar = true;
-    console.log(estadoFormulario);
   }
 };
 
@@ -97,31 +94,26 @@ class Producto {
 let crearProd = document.getElementById("btn-crear");
 
 // lee el localStorage y si está vacío le asigna productos por default
-// operador ternario
-let listaProductos = JSON.parse(localStorage.getItem("productos")) || [
-  { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
-  { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
-  { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
-  { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
-];
-
-if (localStorage.getItem("productos") == "[]") {
+let listaProductos = [];
+if (!localStorage.getItem("productos")) {
   listaProductos = [
     { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
     { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
     { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
     { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
   ];
+  localStorage.setItem("productos", JSON.stringify(listaProductos));
+} else {
+  listaProductos = JSON.parse(localStorage.getItem("productos"));
 }
 
 // Función para agregar producto al array nuevo con value de inputs
-let id = 4;
+let id = listaProductos.length;
 const agregarProducto = () => {
   let nombre = document.getElementById("nombre").value;
   nombre = nombre.toUpperCase();
   let precio = document.getElementById("precio").value;
   id++;
-  console.log("el id es: " + id);
   let productoNuevo = new Producto(nombre, precio, id);
   listaProductos.unshift(productoNuevo);
 
@@ -135,7 +127,6 @@ const agregarProducto = () => {
 const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 let btnAgregar = document.getElementById("agregar");
 // ..................
-let idProd = 0;
 // se crea la card con el contenido del formulario
 btnAgregar.onclick = (e) => {
   e.preventDefault();
@@ -145,7 +136,6 @@ btnAgregar.onclick = (e) => {
     document.getElementById("nombre").value = "";
     document.getElementById("precio").value = "";
     listaProductos.forEach((elemento) => {
-      idProd++;
       let nodo = document.createElement("div");
       nodo.setAttribute("class", "card");
       nodo.setAttribute("style", "width: 18rem;");
@@ -154,17 +144,15 @@ btnAgregar.onclick = (e) => {
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
                     <p class="card-text">$${elemento.precio}</p>
-                    <button class="btn btn-primary" id="button${idProd}">Añadir al carrito</button>
+                    <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
                 </div>
             `;
       document.getElementById("main-cards").appendChild(nodo);
-      const addToCart = document.getElementById(`button${idProd}`);
-      const deleteProduct = document.getElementById(`delete${idProd}`);
-      console.log(elemento.id);
+      const addToCart = document.getElementById(`button${elemento.id}`);
+      const deleteProduct = document.getElementById(`delete${elemento.id}`);
       if (deletableProd) {
-        console.log("hola");
         nodo.innerHTML += `
-                    <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
+                    <a class="close-icon" id="delete${elemento.id}"><i class="fa-solid fa-xmark"></i></a>
                     `;
       }
 
@@ -177,7 +165,6 @@ btnAgregar.onclick = (e) => {
         localStorage.setItem("carrito", JSON.stringify(carrito));
 
         Swal.fire("Agregaste: " + elemento.nombre);
-        console.log(`clickeado ${elemento.id}`);
       });
       deleteProduct.addEventListener("click", () => {
         let deleteIndex = listaProductos.findIndex(function (product) {
@@ -210,7 +197,6 @@ if (contadorProductos > 0 && contadorProductos != undefined) {
 }
 // Crea las cards de los productos del array ya declarados desde el inicio
 listaProductos.forEach((elemento) => {
-  idProd++;
   let nodo = document.createElement("div");
   nodo.setAttribute("class", "card");
   nodo.setAttribute("style", "width: 18rem;");
@@ -219,19 +205,18 @@ listaProductos.forEach((elemento) => {
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
             <p class="card-text">$${elemento.precio}</p>
-            <button class="btn btn-primary" id="button${idProd}">Añadir al carrito</button>
+            <button class="btn btn-primary" id="button${elemento.id}">Añadir al carrito</button>
         </div> 
         `;
   if (deletableProd) {
-    console.log("hola");
     nodo.innerHTML += `
-          <a class="close-icon" id="delete${idProd}"><i class="fa-solid fa-xmark"></i></a>
+          <a class="close-icon" id="delete${elemento.id}"><i class="fa-solid fa-xmark"></i></a>
           `;
   }
   document.getElementById("main-cards").appendChild(nodo);
-  const addToCart = document.getElementById(`button${idProd}`);
-  const deleteProduct = document.getElementById(`delete${idProd}`);
-  console.log(elemento.id);
+  const addToCart = document.getElementById(`button${elemento.id}`);
+  console.log(addToCart);
+  const deleteProduct = document.getElementById(`delete${elemento.id}`);
 
   addToCart.addEventListener("click", () => {
     // modifica navbar
@@ -242,7 +227,6 @@ listaProductos.forEach((elemento) => {
     localStorage.setItem("carrito", JSON.stringify(carrito));
 
     Swal.fire("Agregaste: " + elemento.nombre);
-    console.log(`clickeado ${elemento.id}`);
   });
 
   deleteProduct.addEventListener("click", () => {
