@@ -84,10 +84,11 @@ btnCrear.onclick = (e) => {
 
 // control de agregado de productos
 class Producto {
-  constructor(nombre, precio, id) {
+  constructor(nombre, precio, id, image) {
     this.nombre = nombre;
     this.precio = precio;
     this.id = id;
+    this.image = image;
   }
 }
 
@@ -97,10 +98,34 @@ let crearProd = document.getElementById("btn-crear");
 let listaProductos = [];
 if (!localStorage.getItem("productos")) {
   listaProductos = [
-    { nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`, precio: 80000, id: 1 },
-    { nombre: "NOTEBOOK DELL INSPIRON 3502", precio: 83599, id: 2 },
-    { nombre: "CELULAR SAMSUNG A51 128GB", precio: 64000, id: 3 },
-    { nombre: "MEMORIA RAM FURY BEAST DDR4 8GB", precio: 7300, id: 4 },
+    {
+      nombre: `SMART TV SAMSUNG SERIES 7 LED 4K 50"`,
+      precio: 80000,
+      id: 1,
+      image:
+        "https://images.samsung.com/is/image/samsung/p6pim/ar/un50au7000gczb/gallery/ar-uhd-au7000-un50au7000gczb-489502349?$650_519_PNG$",
+    },
+    {
+      nombre: "NOTEBOOK DELL INSPIRON 3502",
+      precio: 83599,
+      id: 2,
+      image:
+        "https://thumbor.arvutitark.ee/ayBpZVKMOSZvPNEWCE8GuZnHX0g=/trim/fit-in/800x800/filters:format(webp)/https%3A%2F%2Fstorage.googleapis.com%2Farvutitark-prod%2Fpublic%2Fmedia-hub-olev%2F2023%2F01%2F324712%2Forigina.png",
+    },
+    {
+      nombre: "CELULAR SAMSUNG A51 128GB",
+      precio: 64000,
+      id: 3,
+      image:
+        "https://clrimporter.com.ar/wp-content/uploads/2020/11/sm-a515fzwlaro_0_1.png",
+    },
+    {
+      nombre: "MEMORIA RAM FURY BEAST DDR4 8GB",
+      precio: 7300,
+      id: 4,
+      image:
+        "https://logg.api.cygnus.market/static/logg/Global/Memoria_RAM_Gamer_Kingston_FURY_Beast_DDR4_8GB_3200MHz_CL16/976fa25161504b74a391da33aa0dc82b.webp",
+    },
   ];
   localStorage.setItem("productos", JSON.stringify(listaProductos));
 } else {
@@ -113,8 +138,9 @@ const agregarProducto = () => {
   let nombre = document.getElementById("nombre").value;
   nombre = nombre.toUpperCase();
   let precio = document.getElementById("precio").value;
+  let image = document.getElementById("image").value;
   id++;
-  let productoNuevo = new Producto(nombre, precio, id);
+  let productoNuevo = new Producto(nombre, precio, id, image);
   listaProductos.unshift(productoNuevo);
 
   // guarda el producto en el localStorage
@@ -130,17 +156,18 @@ let btnAgregar = document.getElementById("agregar");
 // se crea la card con el contenido del formulario
 btnAgregar.addEventListener("click", (e) => {
   e.preventDefault();
-  if (nombre.value != "" && precio.value != "") {
+  if (nombre.value != "" && precio.value != "" && image.value != "") {
     document.getElementById("main-cards").innerHTML = "";
     agregarProducto();
     document.getElementById("nombre").value = "";
     document.getElementById("precio").value = "";
+    document.getElementById("image").value = "";
     listaProductos.forEach((elemento) => {
       let nodo = document.createElement("div");
       nodo.setAttribute("class", "card");
-      nodo.setAttribute("style", "width: 18rem;");
+      // nodo.setAttribute("style", "width: 18rem; height: 25rem;");
       nodo.innerHTML = `
-                <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
+                <img src="${elemento.image}" class="card-img-top" alt="${elemento.nombre}">
                 <div class="card-body" id="card-body">
                     <h5 class="card-title">${elemento.nombre}</h5>
                     <p class="card-text">$${elemento.precio}</p>
@@ -201,9 +228,9 @@ if (contadorProductos > 0 && contadorProductos != undefined) {
 listaProductos.forEach((elemento) => {
   let nodo = document.createElement("div");
   nodo.setAttribute("class", "card");
-  nodo.setAttribute("style", "width: 18rem;");
+  // nodo.setAttribute("style", "width: 18rem; height: 25rem;");
   nodo.innerHTML = `
-        <img src="https://dummyimage.com/600x400/000/fff" class="card-img-top" alt="${elemento.nombre}">
+        <img src="${elemento.image}" class="card-img-top" alt="${elemento.nombre}">
         <div class="card-body" id="card-body">
             <h5 class="card-title">${elemento.nombre}</h5>
             <p class="card-text">$${elemento.precio}</p>
@@ -216,7 +243,6 @@ listaProductos.forEach((elemento) => {
         <a class="close-icon" id="delete${elemento.id}"><i class="fa-solid fa-xmark"></i></a>
         `;
       const deleteProduct = document.getElementById(`delete${elemento.id}`);
-      console.log(deleteProduct);
       deleteProduct.addEventListener("click", () => {
         let deleteIndex = listaProductos.findIndex(function (product) {
           return product.nombre === elemento.nombre;

@@ -57,12 +57,31 @@ p {
 
 /* ---------MAIN CARDS STYLE---------- */
 
+.card {
+  height: 25rem;
+  width: 18rem;
+}
+
+.card-body {
+  flex: none;
+}
+
+.card img {
+  object-fit: contain;
+  width: 80%;
+  margin: auto;
+}
+
 .close-icon {
   font-size: 1.5rem;
   color: white;
   position: absolute;
   right: 5px;
   background-color: none;
+}
+
+.fa-solid {
+  text-shadow: 0 0 3px #000;
 }
 
 .close-icon:hover {
